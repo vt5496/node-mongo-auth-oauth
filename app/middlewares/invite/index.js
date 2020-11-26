@@ -3,12 +3,12 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 async function emailSender (emailAddress, text) {
   const msg = {
     to: emailAddress, // Change to your recipient
-    from: 'tkk.vlad@gmail.com', // Change to your verified sender
+    from: 'tkk.vladd@gmail.com', // Change to your verified sender
     subject: 'Study boards',
     text: `Welcome to Study boards!
     Your invite: http://localhost:3001/complete-invitation/${text}`,
     html: `<h1>Welcome to Study boards!</h1>
-Your invite: <strong>http://localhost:3001/complete-invitation/${text}</strong>`,
+Your invite: <strong>http://localhost:3002/complete-invitation/${text}</strong>`,
   }
   await sgMail
     .send(msg)

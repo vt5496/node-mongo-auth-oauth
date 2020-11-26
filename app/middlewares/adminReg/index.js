@@ -1,7 +1,7 @@
 const models = require('../../models')
 const { createRandomPassword } = require('../../middlewares/invite/createRandomPassword')
 const emailSender = require('../../middlewares/invite')
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid')
 
 async function adminRegDB (email) {
   try {
@@ -9,17 +9,25 @@ async function adminRegDB (email) {
       throw new Error('Email is empty')
     }
     //create admin model
-    await new models.User({
+    const user = await new models.User({
       email,
       password: createRandomPassword(),
       role: 'ADMIN',
-    }).save()
+    })
+    await user.save()
+    const uuid = uuidv4()
+    const invitation = await new models.Invitation({
+      user_id: user,
+      uuid
+    })
+
+    await invitation.save()
     console.log('User, successfully saved')
 
     //send Email to admin
-    await emailSender(email, uuidv4())
+    await emailSender(email, uuid)
   } catch (e) {
-    if (e.message.includes('duplicate')){
+    if (e.message.includes('duplicate')) {
       return console.log('User, successfully fined')
     }
     console.log(e)

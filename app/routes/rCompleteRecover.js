@@ -1,4 +1,5 @@
 const models = require('../models')
+const bcrypt = require('bcryptjs')
 
 async function completeRecover (req, res) {
   try {
@@ -44,7 +45,7 @@ async function completeRecover (req, res) {
       })
 
       //change password, save, and delete uuid
-      userObj.password = req.parsedData.password
+      userObj.password = bcrypt.hashSync(req.parsedData.password, process.env.SALT)
       await userObj.save()
       await uuidObj.delete()
 

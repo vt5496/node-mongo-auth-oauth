@@ -4,7 +4,7 @@ export default function createOAuthRedirect () {
   const options = {
     method: 'post',
     headers: {
-      'X-Authorization': localStorage.getItem('TOKEN'),
+      'x-authorization': localStorage.getItem('TOKEN'),
     },
     body: formDataJsonString,
   }

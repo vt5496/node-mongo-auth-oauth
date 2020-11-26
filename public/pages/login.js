@@ -17,9 +17,6 @@ export default function createLoginForm () {
     </label>
     <button type="submit"  class="waves-effect waves-light btn-small">Login</button>
    <button id="forgotPassword" class="waves-effect waves-light btn-small">Forgot password</button>
-   <a href="https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&redirect_uri=http://localhost:3002/oauth-redirect&client_id=484749255651-tpn526p3rihq8mi00ac77hbospa1uv32.apps.googleusercontent.com&access_type=offline&scope=email&flowName=GeneralOAuthFlow"> GOOGLE </a>
-   <a id="googlebtn">Google</a>
-   <a href='https://www.facebook.com/v9.0/dialog/oauth?client_id=3811130285572293&redirect_uri=http://localhost:3002/oauth-redirect/facebook&scope=email'>FACEBOOK</a>
 </div>
   </form>
   <div id="result"></div>`

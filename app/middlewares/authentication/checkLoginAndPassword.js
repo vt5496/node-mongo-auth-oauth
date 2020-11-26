@@ -1,14 +1,13 @@
 const models = require('../../models')
+const bcrypt = require('bcryptjs')
 
 async function checkLoginAndPassword (email, password) {
-  const user = await models.User.findOne({ email }, function (err) {
-    if (err) throw new Error(err)
-    console.log('Fined successfully done')
-  }).exec()
+  const user = await models.User.findOne({ email })
+  console.log('Fined successfully done')
   if (!user) {
     throw new Error('Email false')
   }
-  if (user.password !== password) {
+  if (user.password !== bcrypt.hashSync(password, process.env.SALT)) {
     throw new Error('Password false')
   }
   return user

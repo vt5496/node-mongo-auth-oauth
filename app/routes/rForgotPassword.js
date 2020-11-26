@@ -1,5 +1,5 @@
 const models = require('../models')
-const emailSender = require('../middlewares/invite')
+const emailSenderRecover = require('../middlewares/invite/emailForgotPassword')
 const { v4: uuidv4 } = require('uuid');
 
 async function forgotPassword (req, res) {
@@ -40,7 +40,7 @@ async function forgotPassword (req, res) {
 
       //send Email to user
       console.log(`Sent new password to ${req.parsedData.email}`)
-      await emailSender(req.parsedData.email, uuid)
+      await emailSenderRecover(req.parsedData.email, uuid)
 
       //response
       const contentType = 'text/html'
