@@ -11,9 +11,6 @@ export default function pageLocation () {
     case '/login':
       createLoginForm()
       break
-    case '/oauth-redirect':
-      createOAuthRedirect()
-      break
     case '/invite':
       createInvite()
       break
@@ -25,6 +22,8 @@ export default function pageLocation () {
         completeInvitation()
       } else if (window.location.pathname.includes('/complete-recover/')) {
         createCompleteRecover()
+      } else if (window.location.pathname.includes('/oauth-redirect')) {
+        createOAuthRedirect()
       } else {
         homepage()
       }

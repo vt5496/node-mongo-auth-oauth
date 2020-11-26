@@ -7,7 +7,7 @@ const forgotPassword = require('./rForgotPassword')
 const completeForgotPassword = require('./rCompleteForgotPassword')
 const completeRecover = require('./rCompleteRecover')
 const {verifyToken} = require('../utils/tokens')
-const rOAuthGoogle2 = require('./rOAuthGoogle2')
+const rOAuthGoogle = require('./rOAuthGoogle')
 const rOAuthFacebook = require('./rOAuthFacebook')
 
 function routers (req, res) {
@@ -34,6 +34,7 @@ function routers (req, res) {
     if (req.method !== 'GET') {
       req.parsedData = JSON.parse(reqObj)
     }
+
     let url = req.url
     req.position = req.url.indexOf('?')
     if (req.position !== -1) {
@@ -73,7 +74,7 @@ function routers (req, res) {
 
       //for google oauth redirect
       case '/oauth-redirect/google':
-        rOAuthGoogle2(req, res)
+        rOAuthGoogle(req, res)
         break
 
       //for facebook oauth redirect
