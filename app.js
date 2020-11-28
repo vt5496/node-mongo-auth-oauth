@@ -1,13 +1,13 @@
 const http = require('http')
 const mongoose = require('mongoose')
 require('dotenv').config()
-const { adminRegDB } = require('./app/middlewares/adminReg')
+const { adminRegDB } = require('./app/controllers/adminReg')
 
 //my modules
 const routers = require('./app/routes')
 
-const server = http.createServer((req, res) => {
-  routers(req, res)
+const server = http.createServer( (req, res) => {
+    routers(req, res)
 })
 
 const PORT = process.env.PORT || 3002
@@ -18,6 +18,7 @@ async function start () {
       useNewUrlParser: true,
       useFindAndModify: false,
       useUnifiedTopology: true,
+      useCreateIndex: true
     }, function (err) {
       if (err) {throw err}
       console.log('Successfully connected')

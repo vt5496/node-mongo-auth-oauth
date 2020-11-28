@@ -6,8 +6,8 @@ async function completeInvitation (req, res) {
         case 'POST':
           await postMethod(req, res)
           break
-        case 'GET':
-          break
+        default:
+          res.end(false)
       }
     } catch (e) {
       console.log('Error in completeInvitation completeInvitation')

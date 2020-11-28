@@ -27,11 +27,9 @@ function checkToken(){
 
 //when page load
 if (checkToken()) {
-  header.style.display = 'block'
-  window.history.pushState({}, '', `/home`)
+  showOrHideWithLogic('block', `/home`)
 } else {
-  header.style.display = 'none'
-  window.history.pushState({}, '', `/login`)
+  showOrHideWithLogic('none', `/login`)
 }
 
 //when click button check token and show or hide header navigation
@@ -40,12 +38,20 @@ buttons.forEach((button) => {
   button.addEventListener('click', () => {
     (function(){
       if (checkToken()) {
-        header.style.display = 'block'
-        window.history.pushState({}, '', `/${button.id}`)
+        showOrHideWithLogic('block', `/${button.id}`)
       } else {
-        header.style.display = 'none'
-        window.history.pushState({}, '', `/login`)
+        showOrHideWithLogic('none', `/login`)
       }
     })()
   })
 })
+
+function showOrHideWithLogic(display, url){
+  if (checkToken()) {
+    header.style.display = display
+    window.history.pushState({}, '', url)
+  } else {
+    header.style.display = display
+    window.history.pushState({}, '', url)
+  }
+}

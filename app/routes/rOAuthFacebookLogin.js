@@ -1,7 +1,7 @@
 const querystring = require('querystring')
 const models = require('../models/index')
 const axios = require('axios')
-const { signToken, verifyToken } = require('../utils/tokens')
+const { signToken} = require('../utils/tokens')
 
 const FACEBOOK_TOKEN_URL = 'https://graph.facebook.com/v9.0/oauth/access_token'
 
@@ -12,15 +12,9 @@ async function rOAuthFacebook (req, res) {
       throw new Error('Invalid request')
     }
 
-    const userToken = req.headers['x-authorization']
-    const payload = verifyToken(userToken)
-    const user = await models.User.findOne({
-      email: payload.email,
-    })
-
     async function getAccessTokenFromCode (code) {
       const body = {
-        redirect_uri: `http://${req.headers['host']}/oauth-redirect`,
+        redirect_uri: `http://${req.headers['host']}/oauth-redirect-login`,
         code,
         client_id: process.env.FACEBOOK_CLIENT_ID,
         client_secret: process.env.FACEBOOK_CLIENT_SECRET,
@@ -49,12 +43,14 @@ async function rOAuthFacebook (req, res) {
       type: "FACEBOOK"
     })
     if (!userOAuthFacebook) {
-      userOAuthFacebook = await new models.OAuth({
-        user_id: user,
-        type: 'FACEBOOK',
-        oauthId: userInfo.id,
-      })
-      userOAuthFacebook.save()
+      throw new Error('User not found')
+    }
+
+    const user = await models.User.findOne({
+      _id: userOAuthFacebook.user_id,
+    })
+    if (!user) {
+      throw new Error('OAuth user not found')
     }
 
     let userOAuthGoogle = await models.OAuth.findOne({
@@ -72,7 +68,7 @@ async function rOAuthFacebook (req, res) {
     })
 
     res.writeHead(301)
-    res.write(JSON.stringify({ token, email: user.email, facebook: userOAuthFacebook.oauthId, google: userOAuthGoogle.oauthId }))
+    res.write(JSON.stringify({ token, email: user.email, facebook: userOAuthFacebook.oauthId, google: userOAuthGoogle.oauthId}))
     res.end()
   } catch (e) {
     console.log(e.message)

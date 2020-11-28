@@ -19,6 +19,14 @@ export default function createLoginForm () {
    <button id="forgotPassword" class="waves-effect waves-light btn-small">Forgot password</button>
 </div>
   </form>
+  <div style="display: flex; flex-direction: row; ">
+<div style="padding: 10px">
+<a class="waves-effect waves-light btn-small" href="https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&redirect_uri=http://localhost:3002/oauth-redirect-login&client_id=484749255651-tpn526p3rihq8mi00ac77hbospa1uv32.apps.googleusercontent.com&access_type=offline&scope=email&flowName=GeneralOAuthFlow"> GOOGLE </a>
+</div>
+<div style="padding: 10px">
+<a class="waves-effect waves-light btn-small" href='https://www.facebook.com/v9.0/dialog/oauth?client_id=3811130285572293&redirect_uri=http://localhost:3002/oauth-redirect-login&scope=email'>FACEBOOK</a>
+</div>
+</div>
   <div id="result"></div>`
 
   const email = document.getElementById('email')
@@ -59,8 +67,7 @@ export default function createLoginForm () {
       if (res.status === 200) {
         const header = document.getElementById('header')
         header.style.display = 'block'
-        localStorage.setItem('TOKEN', json.token)
-        localStorage.setItem('LOGIN', json.email)
+        lsSet(json)
         window.history.pushState({}, '', `/home`)
       } else {
         result.innerText = `Request status is: ${res.status}. Message: ${json}`
@@ -70,6 +77,14 @@ export default function createLoginForm () {
       result.innerText = error.message
     }
   }
+
+  function lsSet(json){
+    localStorage.setItem('TOKEN', json.token)
+    localStorage.setItem('LOGIN', json.email)
+    localStorage.setItem('FACEBOOK', json.facebook)
+    localStorage.setItem('GOOGLE', json.google)
+  }
+
   function fetchForgotPassword () {
     recoverPassword()
   }

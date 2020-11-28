@@ -1,6 +1,6 @@
 const models = require('../models')
 const { createRandomPassword } = require('../middlewares/invite/createRandomPassword')
-const emailSender = require('../middlewares/invite')
+const emailSender = require('../middlewares/invite/emailInvite')
 const { v4: uuidv4 } = require('uuid');
 
 async function invite (req, res, payload) {
@@ -8,7 +8,8 @@ async function invite (req, res, payload) {
       case 'POST':
         await postMethod(req, res, payload)
         break
-      case 'GET':
+      default:
+        res.end(false)
         break
     }
 }

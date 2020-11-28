@@ -4,7 +4,8 @@
   "main": "app.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon app"
+    "start": "nodemon app",
+    "debug": "nodemon --inspect app"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.4.0",

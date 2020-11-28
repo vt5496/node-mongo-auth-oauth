@@ -1,4 +1,5 @@
 const models = require('../models')
+const HttpError = require('../utils/httpError')
 
 async function completeForgotPassword (req, res) {
   try {
@@ -6,8 +7,8 @@ async function completeForgotPassword (req, res) {
       case 'POST':
         await postMethod(req, res)
         break
-      case 'GET':
-        break
+      default:
+        res.end(false)
     }
   } catch (e) {
     console.log('Error in rCompleteForgotPassword.js completeInvitation')
@@ -26,7 +27,7 @@ async function completeForgotPassword (req, res) {
         uuid
       })
       if (!recoverObj) {
-        throw new Error('You can`t change your password!')
+        throw new HttpError('You can`t change your password!', 301)
       }
       //response to save "I fined UUID, all TRUE"
       const contentType = 'text/html'

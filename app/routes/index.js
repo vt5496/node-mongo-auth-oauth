@@ -9,20 +9,10 @@ const completeRecover = require('./rCompleteRecover')
 const {verifyToken} = require('../utils/tokens')
 const rOAuthGoogle = require('./rOAuthGoogle')
 const rOAuthFacebook = require('./rOAuthFacebook')
+const rOAuthGoogleLogin = require('./rOAuthGoogleLogin')
+const rOAuthFacebookLogin = require('./rOAuthFacebookLogin')
 
 function routers (req, res) {
-  const filePath = path.join(__dirname, '../../', req.url)
-  const ext = path.extname(filePath)
-  let contentType = 'text/html'
-
-  switch (ext) {
-    case '.css':
-      contentType = 'text/css'
-      break
-    case '.js':
-      contentType = 'text/javascript'
-      break
-  }
 
 
   let reqObj = ''
@@ -30,7 +20,6 @@ function routers (req, res) {
     reqObj += chunk
   })
   req.on('end', function () {
-
     if (req.method !== 'GET') {
       req.parsedData = JSON.parse(reqObj)
     }
@@ -40,7 +29,9 @@ function routers (req, res) {
     if (req.position !== -1) {
       url = url.slice(0, req.position)
     }
+
     switch (url) {
+
       //api for login user
       case '/api/login':
         login(req, res)
@@ -77,13 +68,38 @@ function routers (req, res) {
         rOAuthGoogle(req, res)
         break
 
+      //for google oauth login redirect
+      case '/oauth-redirect-login/google':
+        rOAuthGoogleLogin(req, res)
+        break
+
       //for facebook oauth redirect
       case '/oauth-redirect/facebook':
         rOAuthFacebook(req, res)
         break
 
+      //for facebook oauth login redirect
+      case '/oauth-redirect-login/facebook':
+        rOAuthFacebookLogin(req, res)
+        break
+
+
       //for front
       default:
+
+        const filePath = path.join(__dirname, '../../', req.url)
+        const ext = path.extname(filePath)
+        let contentType = 'text/html'
+
+        switch (ext) {
+          case '.css':
+            contentType = 'text/css'
+            break
+          case '.js':
+            contentType = 'text/javascript'
+            break
+        }
+
         switch (ext) {
           case '.js':
           case '.css':

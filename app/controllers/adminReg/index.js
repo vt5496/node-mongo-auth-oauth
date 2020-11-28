@@ -1,6 +1,6 @@
 const models = require('../../models')
 const { createRandomPassword } = require('../../middlewares/invite/createRandomPassword')
-const emailSender = require('../../middlewares/invite')
+const emailSender = require('../../middlewares/invite/emailInvite')
 const { v4: uuidv4 } = require('uuid')
 
 async function adminRegDB (email) {

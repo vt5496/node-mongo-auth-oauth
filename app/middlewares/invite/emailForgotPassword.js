@@ -1,6 +1,6 @@
 const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-async function emailSenderRecover (emailAddress, text) {
+async function emailSenderRecover (emailAddress, text, req) {
   const msg = {
     to: emailAddress, // Change to your recipient
     from: 'tkk.vladd@gmail.com', // Change to your verified sender
